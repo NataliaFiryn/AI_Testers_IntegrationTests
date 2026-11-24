@@ -8,15 +8,16 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@tests/*": ["./tests/*"],
+      "@components/*": ["./src/components/*"],
+      "@enums/*": ["./src/enums/*"],
+      "@fixtures/*": ["./src/fixtures/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@typing/*": ["./src/types/*"]
+    }
   },
-  "include": ["playwright.config.ts", "tests/**/*.ts"],
-  "paths": {
-    "@tests/*": ["tests/*"],
-    "@components/*": ["./src/components/*"],
-    "@fixtures/*": ["./src/fixtures/*"],
-    "@helpers/*": ["./src/helpers/*"],
-    "@pages/*": ["./src/pages/*"],
-    "@types/*": ["./src/types/*"]
-  }
+  "include": ["playwright.config.ts", "src/**/*.ts", "tests/**/*.ts"]
 }
