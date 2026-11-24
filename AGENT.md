@@ -74,8 +74,9 @@ admin credentials.
   `BASE_URL`. Existing process environment values take precedence over `.env`, and the fallback
   URL is `http://localhost:3000`. Use relative navigation such as `page.goto('/')`. Keep real
   credentials in the ignored `.env` or the runtime environment.
-- Import `test` and `expect` from `@playwright/test`. For UI assertions, follow the smoke test's
-  pattern of role-based locators and Playwright's awaited assertions.
+- Import `test` and `expect` from `@playwright/test` and use Playwright's awaited UI assertions.
+- In page objects and tests, prefer `getByTestId()` when the element has a `data-testid` attribute.
+  When no test ID is available, use an accessible locator such as `getByRole()` or `getByLabel()`.
 - Reuse `generateProduct(overrides)` for backend-shaped product data and
   `generateProducts(count)` for batches with distinct sequential IDs. Override fields that an
   assertion relies on. For randomized fields, assert their shape or allowed values.
