@@ -1,18 +1,18 @@
 # AI Testers — testy Playwright
 
 Podstawowa konfiguracja Playwright + TypeScript, ESLint, Prettier i Husky.
-Wymagany Node.js 22.17+ oraz npm.
+Użyj Node.js 22 w wersji co najmniej 22.17.0 oraz npm 10 lub nowszego.
 
 ## Instalacja
 
 ```sh
 npm ci
-npm run test:install
+npm run test:install -- chromium
 ```
 
-Plik `.env` jest ignorowany przez Git. Po sklonowaniu repozytorium skopiuj
-`.env.example` do `.env` i ustaw `BASE_URL` na adres testowanej aplikacji.
-Zmienne środowiskowe systemu mają pierwszeństwo przed `.env`.
+Jeśli dodajesz testy aplikacji, skopiuj `.env.example` do `.env` i ustaw
+`BASE_URL` na adres aplikacji. Domyślny adres to `http://localhost:3000`.
+Git ignoruje plik `.env`, a zmienne środowiskowe mają pierwszeństwo przed jego zawartością.
 
 ## Uruchamianie
 
@@ -24,8 +24,9 @@ npm run test:debug
 npm run test:report
 ```
 
-Testy znajdują się w `tests/` i uruchamiają się w Chromium, Firefox oraz WebKit.
-Przykładowy test korzysta z lokalnej zawartości HTML i nie wymaga serwera.
+Playwright uruchamia testy z `tests/` w projekcie `mockingTests` na Chromium.
+Obecny zestaw obejmuje przykładowy test z lokalną zawartością HTML oraz testy
+generatora danych produktów. Możesz go uruchomić bez serwera aplikacji.
 W testach aplikacji używaj `page.goto('/')`, aby korzystać z `BASE_URL`.
 Uruchom aplikację osobno przed wykonaniem takich testów.
 
@@ -38,10 +39,12 @@ npm run format
 ```
 
 Husky instaluje hook podczas `npm ci` / `npm install` w repozytorium Git.
-Przed commitem sprawdzane są lint, formatowanie i typy całego projektu.
-W CI Playwright blokuje `test.only`, ponawia nieudane testy dwukrotnie
-i używa jednego workera. Raport HTML trafia do `playwright-report/`,
-a artefakty nieudanych testów do `test-results/`.
+Hook przed commitem i workflow CI uruchamiają `npm run check`, które sprawdza
+lint, formatowanie i typy całego projektu. W CI te kontrole odbywają się przed
+instalacją Chromium i uruchomieniem testów.
+Playwright używa jednego workera i wykonuje testy bez ponowień.
+W CI opcja `--forbid-only` blokuje `test.only`. Raport HTML trafia do
+`playwright-report/`, a artefakty nieudanych testów do `test-results/`.
 
 W PowerShell z blokadą skryptów używaj `npm.cmd` zamiast `npm`.
 
