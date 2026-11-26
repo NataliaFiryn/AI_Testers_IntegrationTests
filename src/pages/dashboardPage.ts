@@ -1,6 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
 
-export class DashboardPage {
+import { BasePage } from './basePage';
+
+export class DashboardPage extends BasePage {
   readonly welcomeHeading: Locator;
   readonly productsButton: Locator;
   readonly usersButton: Locator;
@@ -9,12 +11,9 @@ export class DashboardPage {
   readonly trafficMonitorButton: Locator;
   readonly generateQrCodesButton: Locator;
   readonly sendEmailsButton: Locator;
-  readonly shopApiSelect: Locator;
-  readonly currencySelect: Locator;
-  readonly cartLink: Locator;
-  readonly mainMenuButton: Locator;
 
-  constructor(private readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.welcomeHeading = page.getByTestId('home-welcome-title');
     this.productsButton = page.getByTestId('home-products-button');
     this.usersButton = page.getByTestId('home-users-button');
@@ -23,10 +22,6 @@ export class DashboardPage {
     this.trafficMonitorButton = page.getByTestId('home-traffic-button');
     this.generateQrCodesButton = page.getByTestId('home-qr-button');
     this.sendEmailsButton = page.getByTestId('home-email-button');
-    this.shopApiSelect = page.getByTestId('commerce-transport');
-    this.currencySelect = page.getByTestId('currency-selector');
-    this.cartLink = page.getByTestId('desktop-cart-icon');
-    this.mainMenuButton = page.getByTestId('mobile-menu-toggle');
   }
 
   async goto(): Promise<void> {
