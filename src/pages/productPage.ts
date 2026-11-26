@@ -45,6 +45,30 @@ export class ProductPage extends BasePage {
     await this.page.goto('/products');
   }
 
+  async mockProductSearch(
+    baseURL: string,
+    response: { pageNumber: number; pageSize: number },
+  ): Promise<void> {
+    const origin = new URL(baseURL).origin;
+    const { pageNumber, pageSize } = response;
+
+    await this.page.route(
+      (url) =>
+        url.origin === origin &&
+        url.pathname === '/api/v1/products/search' &&
+        url.searchParams.get('page') === String(pageNumber) &&
+        url.searchParams.get('size') === String(pageSize),
+      async (route) => {
+        if (route.request().method() !== 'GET') {
+          await route.fallback();
+          return;
+        }
+
+        await route.fulfill({ json: response });
+      },
+    );
+  }
+
   categoryCheckbox(category: ProductCategory): Locator {
     return this.categoryFilter.getByTestId(
       `products-category-${category.toLowerCase().replaceAll(' ', '-')}`,

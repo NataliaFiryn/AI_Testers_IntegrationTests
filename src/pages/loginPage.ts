@@ -33,4 +33,15 @@ export class LoginPage extends BasePage {
     await this.passwordInput.fill(password);
     await this.signInButton.click();
   }
+
+  async signInAsDemoClient(): Promise<void> {
+    const username = process.env.DEMO_USER_CLIENT_USERNAME;
+    const password = process.env.DEMO_USER_CLIENT_PASSWORD;
+
+    if (!username || !password) {
+      throw new Error('Set DEMO_USER_CLIENT_USERNAME and DEMO_USER_CLIENT_PASSWORD.');
+    }
+
+    await this.signIn(username, password);
+  }
 }
